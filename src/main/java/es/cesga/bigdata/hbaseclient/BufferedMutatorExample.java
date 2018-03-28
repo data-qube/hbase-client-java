@@ -30,10 +30,13 @@ public class BufferedMutatorExample {
         // Option 1 (recommended): Place hbase-site.xml on src/main/resources
         // Option 2: Configure the hbase connection properties here:
         // - Zookeeper addresses
-        conf.set("hbase.zookeeper.quorum", "10.112.13.19,10.112.13.18,10.112.13.17");
+        conf.set("hbase.zookeeper.quorum", "192.168.58.155,192.168.58.156,192.168.58.157");
         // - Non-default znode parent (e.g. HDP with security disabled)
-        conf.set("zookeeper.znode.parent", "/hbase-unsecure");
-
+//        conf.set("zookeeper.znode.parent", "/hbase-unsecure");
+        conf.set("hbase.zookeeper.property.clientPort","2181");
+        conf.setInt("hbase.rpc.timeout",20000);
+        conf.setInt("hbase.client.operation.timeout",30000);
+        conf.setInt("hbase.client.scaner.timeout.period",200000);
         BufferedMutator.ExceptionListener listener = (e, mutator) -> {
             for (int i = 0; i < e.getNumExceptions(); i++) {
                 logger.info("Failed to send put: " + e.getRow(i));
